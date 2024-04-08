@@ -9,8 +9,11 @@ import javax.swing.SpringLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 
-import art.controller.Controller;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
+import art.controller.Controller;
 
 public class ArtPanel extends JPanel
 {
@@ -62,7 +65,68 @@ public class ArtPanel extends JPanel
 	
 	private void setupListeners()
 	{
-		
+		canvas.addMouseListener(new MouseListener()
+		{
+			public void mouseClicked(MouseEvent click)
+			{
+				String info = "Mouse was clicked at: ";
+				
+				int mouseX = click.getX();
+				int mouseY = click.getY();
+				
+				info += "x: " + mouseX + " y: " + mouseY + "\n";
+				
+				infoArea.append(info);
+			}
+			
+			public void mousePressed(MouseEvent press)
+			{
+				String info = "Mouse was pressed at: ";
+				
+				int mouseX = press.getX();
+				int mouseY = press.getY();
+				
+				info += "x: " + mouseX + " y: " + mouseY + "\n";
+				
+				infoArea.append(info);
+			}
+			
+			public void mouseReleased(MouseEvent release)
+			{
+				String info = "Mouse was released at: ";
+				
+				int mouseX = release.getX();
+				int mouseY = release.getY();
+				
+				info += "x: " + mouseX + " y: " + mouseY + "\n";
+				
+				infoArea.append(info);
+			}
+			
+			public void mouseEntered(MouseEvent enter)
+			{
+				String info = "Mouse was entered at: ";
+				
+				int mouseX = enter.getX();
+				int mouseY = enter.getY();
+				
+				info += "x: " + mouseX + " y: " + mouseY + "\n";
+				
+				infoArea.append(info);
+			}
+			
+			public void mouseExited(MouseEvent exit)
+			{
+				String info = "Mouse was exited at: ";
+				
+				int mouseX = exit.getX();
+				int mouseY = exit.getY();
+				
+				info += "x: " + mouseX + " y: " + mouseY + "\n";
+				
+				infoArea.append(info);
+			}
+		});
 	}
 	
 	private void setupLayout()
