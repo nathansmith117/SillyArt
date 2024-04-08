@@ -127,6 +127,33 @@ public class ArtPanel extends JPanel
 				infoArea.append(info);
 			}
 		});
+		
+		canvas.addMouseMotionListener(new MouseMotionListener()
+		{
+			public void mouseMoved(MouseEvent move)
+			{
+				String info = "Mouse moved at: ";
+				
+				int mouseX = move.getX();
+				int mouseY = move.getY();
+				
+				info += "x: " + mouseX + "y: " + mouseY + "\n";
+				
+				infoArea.setText(info);
+			}
+			
+			public void mouseDragged(MouseEvent drag)
+			{
+				String info = "Mouse dragged at: ";
+				
+				int mouseX = drag.getX();
+				int mouseY = drag.getY();
+				
+				info += "x: " + mouseX + "y: " + mouseY + "\n";
+				
+				infoArea.setText(info);
+			}
+		});
 	}
 	
 	private void setupLayout()
