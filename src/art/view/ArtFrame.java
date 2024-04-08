@@ -20,10 +20,9 @@ public class ArtFrame extends JFrame
 	private void setupFrame()
 	{
 		setContentPane(panel);
-		setSize(1200, 900);
+		setSize(1000, 800);
 		setTitle("Silly art");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
 		setVisible(true);
 	}
 }
