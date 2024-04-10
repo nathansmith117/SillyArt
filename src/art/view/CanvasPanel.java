@@ -10,6 +10,8 @@ import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JFileChooser;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -67,7 +69,43 @@ public class CanvasPanel extends JPanel
 		graphics.drawImage(canvasImage, 0, 0, null);
 	}
 	
-	// A little helper for scaling and transforming my points.
+	private void saveArt(String path)
+	{
+		try
+		{
+			ImageIO.write(canvasImage, "png", new File(path));
+		}
+		catch (IOException error)
+		{
+			app.handleError(error);
+		}
+		catch (NullPointerException error)
+		{
+			app.handleError(error);
+		}
+	}
+	
+	public void save()
+	{
+		JFileChooser fileChooser = new JFileChooser();
+		
+		int result = fileChooser.showSaveDialog(this);
+		
+		if (result == JFileChooser.APPROVE_OPTION)
+		{
+			String path = fileChooser.getSelectedFile().getAbsolutePath();
+			
+			// Add .png if not there.
+			if (path.length() <= 4 || !path.substring(path.length() - 4).equals(".png"))
+			{
+				path += ".png";
+			}
+			
+			saveArt(path);
+		}
+	}
+	
+	// A little helper for scaling and transforming.
 	private void scaleAndTransformPoints(Polygon polygon, int scale, int xTransform, int yTransform)
 	{
 		for (int index = 0; index < polygon.npoints; index++)

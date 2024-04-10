@@ -154,6 +154,8 @@ public class ArtPanel extends JPanel
 				infoArea.setText(info);
 			}
 		});
+		
+		demoButton.addActionListener(click -> canvas.save());
 	}
 	
 	private void setupLayout()
