@@ -46,6 +46,8 @@ public class CanvasPanel extends JPanel
 		drawingTool.draw(drawUfo());
 		drawingTool.setStroke(new BasicStroke(1));
 		drawingTool.draw(drawWeirdThing());
+		drawingTool.setStroke(new BasicStroke(5));
+		drawingTool.draw(drawWack());
 		
 		drawingTool.dispose();
 		repaint();
@@ -59,18 +61,6 @@ public class CanvasPanel extends JPanel
 	}
 	
 	// A little helper for scaling and transforming my points.
-	private void scaleAndTransformPoints(int[] xPoints, int[] yPoints, int scale, int xTransform, int yTransform)
-	{
-		for (int index = 0; index < xPoints.length; index++)
-		{
-			xPoints[index] *= scale;
-			xPoints[index] += xTransform;
-			
-			yPoints[index] *= scale;
-			yPoints[index] += yTransform;
-		}
-	}
-	
 	private void scaleAndTransformPoints(Polygon polygon, int scale, int xTransform, int yTransform)
 	{
 		for (int index = 0; index < polygon.npoints; index++)
@@ -90,11 +80,10 @@ public class CanvasPanel extends JPanel
 		int[] xPoints = {2, 4, 4, 6, 5, 1, 0, 2};
 		int[] yPoints = {0, 0, 1, 1, 2, 2, 1, 1};
 		
-		scaleAndTransformPoints(xPoints, yPoints, 30, 20, 20);
-		
 		ufo.xpoints = xPoints;
 		ufo.ypoints = yPoints;
 		ufo.npoints = xPoints.length;
+		scaleAndTransformPoints(ufo, 30, 20, 20);
 		
 		return ufo;
 	}
@@ -115,5 +104,20 @@ public class CanvasPanel extends JPanel
 		scaleAndTransformPoints(weirdThing, 30, 210, 20);
 		
 		return weirdThing;
+	}
+	
+	private Polygon drawWack()
+	{
+		Polygon wack = new Polygon();
+		
+		int[] xPoints = {1, 2, 2, 3, 4, 0, 1};
+		int[] yPoints = {0, 0, 2, 2, 3, 3, 1};
+		
+		wack.xpoints = xPoints;
+		wack.ypoints = yPoints;
+		wack.npoints = xPoints.length;
+		scaleAndTransformPoints(wack, 30, 20, 120);
+		
+		return wack;
 	}
 }
