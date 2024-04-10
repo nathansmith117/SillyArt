@@ -17,6 +17,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
+import java.lang.Math;
+
 import art.controller.Controller;
 
 public class CanvasPanel extends JPanel
@@ -51,6 +53,8 @@ public class CanvasPanel extends JPanel
 		drawingTool.fill(drawLetterY());
 		drawingTool.setStroke(new BasicStroke(1));
 		drawingTool.draw(drawRock());
+		drawingTool.setStroke(new BasicStroke(2));
+		drawingTool.draw(generateBasicPolygon(7, 30, 100, 350));
 		
 		drawingTool.dispose();
 		repaint();
@@ -74,6 +78,23 @@ public class CanvasPanel extends JPanel
 			polygon.ypoints[index] *= scale;
 			polygon.ypoints[index] += yTransform;
 		}
+	}
+	
+	private Polygon generateBasicPolygon(int lineCount, int radius, int xPosition, int yPosition)
+	{
+		Polygon polygon = new Polygon();
+		
+		for (int lineNum = 0; lineNum < lineCount; lineNum++)
+		{
+			double angle = (double)(lineNum) * ((Math.PI * 2.0) / (double)(lineCount));
+			
+			int xPoint = (int)(radius * Math.sin(angle) + xPosition);
+			int yPoint = (int)(radius * Math.cos(angle) + yPosition);
+			
+			polygon.addPoint(xPoint, yPoint);
+		}
+		
+		return polygon;
 	}
 	
 	private Polygon drawUfo()
