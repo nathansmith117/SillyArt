@@ -48,8 +48,9 @@ public class CanvasPanel extends JPanel
 		drawingTool.draw(drawWeirdThing());
 		drawingTool.setStroke(new BasicStroke(5));
 		drawingTool.draw(drawWack());
-		drawingTool.setStroke(new BasicStroke(3));
-		drawingTool.draw(drawLetterY());
+		drawingTool.fill(drawLetterY());
+		drawingTool.setStroke(new BasicStroke(1));
+		drawingTool.draw(drawRock());
 		
 		drawingTool.dispose();
 		repaint();
@@ -136,5 +137,20 @@ public class CanvasPanel extends JPanel
 		scaleAndTransformPoints(letterY, 30, 210, 120);
 		
 		return letterY;
+	}
+	
+	private Polygon drawRock()
+	{
+		Polygon rock = new Polygon();
+		
+		int[] xPoints = {1, 2, 3, 3, 2, 0};
+		int[] yPoints = {0, 0, 1, 2, 3, 1};
+		
+		rock.xpoints = xPoints;
+		rock.ypoints = yPoints;
+		rock.npoints = xPoints.length;
+		scaleAndTransformPoints(rock, 30, 20, 220);
+		
+		return rock;
 	}
 }
