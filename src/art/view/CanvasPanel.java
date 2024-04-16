@@ -75,11 +75,7 @@ public class CanvasPanel extends JPanel
 		{
 			ImageIO.write(canvasImage, "png", new File(path));
 		}
-		catch (IOException error)
-		{
-			app.handleError(error);
-		}
-		catch (NullPointerException error)
+		catch (IOException | NullPointerException error)
 		{
 			app.handleError(error);
 		}
