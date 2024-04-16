@@ -42,6 +42,54 @@ public class ShapeCanvas extends JPanel
 		this.rectangleList = new ArrayList<Rectangle>();
 		
 		canvasImage = new BufferedImage(800, 800, BufferedImage.TYPE_INT_ARGB);
+		updateImage();
+	}
+	
+	@Override
+	protected void paintComponent(Graphics graphics)
+	{
+		super.printComponent(graphics);
+		graphics.drawImage(canvasImage, 0, 0, null);
+	}
+	
+	private void updateImage()
+	{
+		Graphics2D drawingTool = (Graphics2D)canvasImage.getGraphics();
+		
+		// Triangles.
+		for (Polygon triangle : triangleList)
+		{
+			drawingTool.setColor(createRandomColor());
+			drawingTool.fill(triangle);
+		}
+		
+		// Polygons.
+		for (Polygon polygon : polygonList)
+		{
+			drawingTool.setColor(createRandomColor());
+			drawingTool.setStroke(new BasicStroke(6));
+			drawingTool.draw(polygon);
+		}
+		
+		// Ellipses.
+		for (Ellipse2D ellipse : ellipseList)
+		{
+			drawingTool.setColor(createRandomColor());
+			drawingTool.setStroke(new BasicStroke(2));
+			drawingTool.fill(ellipse);
+			drawingTool.setColor(createRandomColor());
+			drawingTool.draw(ellipse);
+		}
+		
+		// Rectangles.
+		for (Rectangle rectangle : rectangleList)
+		{
+			drawingTool.setColor(createRandomColor());
+			drawingTool.fill(rectangle);
+		}
+		
+		drawingTool.dispose();
+		repaint();
 	}
 	
 	private Color createRandomColor()
