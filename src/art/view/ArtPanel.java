@@ -22,7 +22,8 @@ public class ArtPanel extends JPanel
 	private JTextArea infoArea;
 	private JScrollPane infoPane;
 	private JPanel menuPanel;
-	private JButton demoButton;
+	private JButton saveButton;
+	private JButton loadButton;
 	
 	private CanvasPanel canvas;
 	
@@ -37,7 +38,8 @@ public class ArtPanel extends JPanel
 		this.infoArea = new JTextArea();
 		this.infoPane = new JScrollPane();
 		this.menuPanel = new JPanel(new GridLayout(0, 1));
-		this.demoButton = new JButton("Click");
+		this.saveButton = new JButton("save");
+		this.loadButton = new JButton("load");
 		
 		setupPanel();
 		setupListeners();
@@ -52,7 +54,8 @@ public class ArtPanel extends JPanel
 		this.add(canvas);
 		
 		menuPanel.add(infoPane);
-		menuPanel.add(demoButton);
+		menuPanel.add(saveButton);
+		menuPanel.add(loadButton);
 		
 		infoPane.setViewportView(infoArea);
 		infoArea.setLineWrap(true);
@@ -155,7 +158,8 @@ public class ArtPanel extends JPanel
 			}
 		});
 		
-		demoButton.addActionListener(click -> canvas.save());
+		saveButton.addActionListener(click -> canvas.save());
+		loadButton.addActionListener(click -> canvas.loadImage());
 	}
 	
 	private void setupLayout()

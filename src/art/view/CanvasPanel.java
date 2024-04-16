@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JPanel;
 
 import java.lang.Math;
@@ -89,7 +89,7 @@ public class CanvasPanel extends JPanel
 		
 		if (result == JFileChooser.APPROVE_OPTION)
 		{
-			String path = fileChooser.getSelectedFile().getAbsolutePath();
+			String path = fileChooser.getSelectedFile().getPath();
 			
 			// Add .png if not there.
 			if (path.length() <= 4 || !path.substring(path.length() - 4).equals(".png"))
@@ -98,6 +98,26 @@ public class CanvasPanel extends JPanel
 			}
 			
 			saveArt(path);
+		}
+	}
+	
+	public void loadImage()
+	{
+		try
+		{
+			JFileChooser picker = new JFileChooser();
+			picker.addChoosableFileFilter(new FileNameExtensionFilter("Pictures!", "png"));
+			
+			if (picker.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+			{
+				String filepath = picker.getSelectedFile().getPath();
+				canvasImage = ImageIO.read(new File(filepath));
+				repaint();
+			}
+		}
+		catch (IOException error)
+		{
+			app.handleError(error);
 		}
 	}
 	
