@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.lang.Math;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -41,5 +42,17 @@ public class ShapeCanvas extends JPanel
 		this.rectangleList = new ArrayList<Rectangle>();
 		
 		canvasImage = new BufferedImage(800, 800, BufferedImage.TYPE_INT_ARGB);
+	}
+	
+	private Color createRandomColor()
+	{
+		int red   = (int)(Math.random() * 256);
+		int green = (int)(Math.random() * 256);
+		int blue  = (int)(Math.random() * 256);
+		int alpha = (int)(Math.random() * 256);
+		
+		Color color = new Color(red, green, blue, alpha);
+		
+		return color;
 	}
 }
