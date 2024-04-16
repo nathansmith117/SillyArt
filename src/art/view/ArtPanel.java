@@ -39,14 +39,14 @@ public class ArtPanel extends JPanel
 	private JButton clearButton;
 	private JButton colorButton;
 	
-	private CanvasPanel canvas;
+	private ShapeCanvas canvas;
 	
 	public ArtPanel(Controller app)
 	{
 		super();
 		this.app = app;
 		
-		this.canvas = new CanvasPanel(app);
+		this.canvas = new ShapeCanvas(app);
 		
 		this.layout = new SpringLayout();
 		this.infoArea = new JTextArea();
@@ -69,12 +69,13 @@ public class ArtPanel extends JPanel
 	}
 	
 	private void setupPanel()
-	{
+	{	
 		this.setBackground(Color.CYAN);
 		this.setLayout(layout);
 		this.add(menuPanel);
 		this.add(canvas);
 		
+		menuPanel.setPreferredSize(new Dimension(200, 450));
 		menuPanel.add(infoPane);
 		menuPanel.add(saveButton);
 		menuPanel.add(loadButton);
@@ -185,9 +186,6 @@ public class ArtPanel extends JPanel
 				infoArea.setText(info);
 			}
 		});
-		
-		saveButton.addActionListener(click -> canvas.save());
-		loadButton.addActionListener(click -> canvas.loadImage());
 	}
 	
 	private void setupLayout()

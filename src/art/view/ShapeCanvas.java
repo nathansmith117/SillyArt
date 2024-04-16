@@ -42,19 +42,27 @@ public class ShapeCanvas extends JPanel
 		this.rectangleList = new ArrayList<Rectangle>();
 		
 		canvasImage = new BufferedImage(800, 800, BufferedImage.TYPE_INT_ARGB);
+		
+		this.setMinimumSize(new Dimension(800, 800));
+		this.setPreferredSize(new Dimension(800, 800));
+		this.setMaximumSize(getPreferredSize());
+		
 		updateImage();
 	}
 	
 	@Override
 	protected void paintComponent(Graphics graphics)
 	{
-		super.printComponent(graphics);
+		super.paintComponent(graphics);
 		graphics.drawImage(canvasImage, 0, 0, null);
 	}
 	
 	private void updateImage()
 	{
 		Graphics2D drawingTool = (Graphics2D)canvasImage.getGraphics();
+		
+		drawingTool.setColor(Color.WHITE);
+		drawingTool.fill(new Rectangle(0, 0, 800, 800));
 		
 		// Triangles.
 		for (Polygon triangle : triangleList)
