@@ -12,6 +12,12 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.Dimension;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Ellipse2D;
 
 import art.controller.Controller;
 
@@ -22,8 +28,16 @@ public class ArtPanel extends JPanel
 	private JTextArea infoArea;
 	private JScrollPane infoPane;
 	private JPanel menuPanel;
+	
 	private JButton saveButton;
 	private JButton loadButton;
+	
+	private JButton triangleButton;
+	private JButton ellipseButton;
+	private JButton rectangleButton;
+	private JButton polygonButton;
+	private JButton clearButton;
+	private JButton colorButton;
 	
 	private CanvasPanel canvas;
 	
@@ -38,8 +52,16 @@ public class ArtPanel extends JPanel
 		this.infoArea = new JTextArea();
 		this.infoPane = new JScrollPane();
 		this.menuPanel = new JPanel(new GridLayout(0, 1));
+		
 		this.saveButton = new JButton("save");
 		this.loadButton = new JButton("load");
+		
+		this.triangleButton = new JButton("triangle");
+		this.ellipseButton = new JButton("ellipse");
+		this.rectangleButton = new JButton("rectangle");
+		this.polygonButton = new JButton("polygon");
+		this.clearButton = new JButton("clear");
+		this.colorButton = new JButton("color");
 		
 		setupPanel();
 		setupListeners();
@@ -56,6 +78,12 @@ public class ArtPanel extends JPanel
 		menuPanel.add(infoPane);
 		menuPanel.add(saveButton);
 		menuPanel.add(loadButton);
+		menuPanel.add(triangleButton);
+		menuPanel.add(ellipseButton);
+		menuPanel.add(rectangleButton);
+		menuPanel.add(polygonButton);
+		menuPanel.add(clearButton);
+		menuPanel.add(colorButton);
 		
 		infoPane.setViewportView(infoArea);
 		infoArea.setLineWrap(true);
