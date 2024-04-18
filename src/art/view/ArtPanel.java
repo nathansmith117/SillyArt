@@ -87,7 +87,7 @@ public class ArtPanel extends JPanel
 		this.currentEdgeCount = 0;
 		this.scaleSlider = new JSlider(MINIMUM_SCALE, MAXIMUM_SCALE);
 		this.edgeSlider = new JSlider(MINIMUM_EDGE, MAXIMUM_EDGE);
-		this.sliderPanel = new JPanel(new GridLayout(1, 0));
+		this.sliderPanel = new JPanel(new GridLayout(0, 1));
 		
 		setupSliders();
 		setupPanel();
@@ -108,14 +108,14 @@ public class ArtPanel extends JPanel
 		edgeLabels.put(MAXIMUM_EDGE, new JLabel("Edges: " + MAXIMUM_EDGE));
 		
 		scaleSlider.setLabelTable(scaleLabels);
-		scaleSlider.setOrientation(JSlider.HORIZONTAL);
+		scaleSlider.setOrientation(JSlider.VERTICAL);
 		scaleSlider.setMajorTickSpacing(10);
 		scaleSlider.setMinorTickSpacing(2);
 		scaleSlider.setPaintLabels(true);
 		scaleSlider.setPaintTicks(true);
 		
 		edgeSlider.setLabelTable(edgeLabels);
-		edgeSlider.setOrientation(JSlider.HORIZONTAL);
+		edgeSlider.setOrientation(JSlider.VERTICAL);
 		edgeSlider.setMajorTickSpacing(5);
 		edgeSlider.setMinorTickSpacing(1);
 		edgeSlider.setPaintLabels(true);
@@ -127,6 +127,7 @@ public class ArtPanel extends JPanel
 		this.setBackground(Color.CYAN);
 		this.setLayout(layout);
 		this.add(menuPanel);
+		this.add(sliderPanel);
 		this.add(canvas);
 		
 		menuPanel.setPreferredSize(new Dimension(200, 450));
@@ -140,6 +141,10 @@ public class ArtPanel extends JPanel
 		menuPanel.add(clearButton);
 		menuPanel.add(colorButton);
 		
+		sliderPanel.setPreferredSize(new Dimension(250, 450));
+		sliderPanel.add(scaleSlider);
+		sliderPanel.add(edgeSlider);
+		
 		infoPane.setViewportView(infoArea);
 		infoArea.setLineWrap(true);
 		infoArea.setWrapStyleWord(true);
@@ -151,107 +156,24 @@ public class ArtPanel extends JPanel
 	
 	private void setupListeners()
 	{
-		canvas.addMouseListener(new MouseListener()
-		{
-			public void mouseClicked(MouseEvent click)
-			{
-				String info = "Mouse was clicked at: ";
-				
-				int mouseX = click.getX();
-				int mouseY = click.getY();
-				
-				info += "x: " + mouseX + " y: " + mouseY + "\n";
-				
-				infoArea.append(info);
-			}
-			
-			public void mousePressed(MouseEvent press)
-			{
-				String info = "Mouse was pressed at: ";
-				
-				int mouseX = press.getX();
-				int mouseY = press.getY();
-				
-				info += "x: " + mouseX + " y: " + mouseY + "\n";
-				
-				infoArea.append(info);
-			}
-			
-			public void mouseReleased(MouseEvent release)
-			{
-				String info = "Mouse was released at: ";
-				
-				int mouseX = release.getX();
-				int mouseY = release.getY();
-				
-				info += "x: " + mouseX + " y: " + mouseY + "\n";
-				
-				infoArea.append(info);
-			}
-			
-			public void mouseEntered(MouseEvent enter)
-			{
-				String info = "Mouse was entered at: ";
-				
-				int mouseX = enter.getX();
-				int mouseY = enter.getY();
-				
-				info += "x: " + mouseX + " y: " + mouseY + "\n";
-				
-				infoArea.append(info);
-			}
-			
-			public void mouseExited(MouseEvent exit)
-			{
-				String info = "Mouse was exited at: ";
-				
-				int mouseX = exit.getX();
-				int mouseY = exit.getY();
-				
-				info += "x: " + mouseX + " y: " + mouseY + "\n";
-				
-				infoArea.append(info);
-			}
-		});
 		
-		canvas.addMouseMotionListener(new MouseMotionListener()
-		{
-			public void mouseMoved(MouseEvent move)
-			{
-				String info = "Mouse moved at: ";
-				
-				int mouseX = move.getX();
-				int mouseY = move.getY();
-				
-				info += "x: " + mouseX + "y: " + mouseY + "\n";
-				
-				infoArea.setText(info);
-			}
-			
-			public void mouseDragged(MouseEvent drag)
-			{
-				String info = "Mouse dragged at: ";
-				
-				int mouseX = drag.getX();
-				int mouseY = drag.getY();
-				
-				info += "x: " + mouseX + "y: " + mouseY + "\n";
-				
-				infoArea.setText(info);
-			}
-		});
 	}
 	
 	private void setupLayout()
 	{
-		layout.putConstraint(SpringLayout.NORTH, menuPanel, 25, SpringLayout.NORTH, this);
-		layout.putConstraint(SpringLayout.EAST, menuPanel, 125, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.SOUTH, menuPanel, -25, SpringLayout.SOUTH, this);
-		layout.putConstraint(SpringLayout.WEST, menuPanel, 25, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.NORTH, menuPanel, 5, SpringLayout.NORTH, this);
+		layout.putConstraint(SpringLayout.EAST, menuPanel, 105, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.SOUTH, menuPanel, -5, SpringLayout.SOUTH, this);
+		layout.putConstraint(SpringLayout.WEST, menuPanel, 5, SpringLayout.WEST, this);
 		
-		layout.putConstraint(SpringLayout.NORTH, canvas, 0, SpringLayout.NORTH, menuPanel);
-		layout.putConstraint(SpringLayout.EAST, canvas, -25, SpringLayout.EAST, this);
-		layout.putConstraint(SpringLayout.SOUTH, canvas, 0, SpringLayout.SOUTH, menuPanel);
-		layout.putConstraint(SpringLayout.WEST, canvas, 25, SpringLayout.EAST, menuPanel);
+		layout.putConstraint(SpringLayout.NORTH, sliderPanel, 5, SpringLayout.NORTH, this);
+		layout.putConstraint(SpringLayout.EAST, sliderPanel, 115, SpringLayout.EAST, menuPanel);
+		layout.putConstraint(SpringLayout.SOUTH, sliderPanel, -5, SpringLayout.SOUTH, this);
+		layout.putConstraint(SpringLayout.WEST, sliderPanel, 5, SpringLayout.EAST, menuPanel);
+		
+		layout.putConstraint(SpringLayout.NORTH, canvas, 0, SpringLayout.NORTH, sliderPanel);
+		layout.putConstraint(SpringLayout.EAST, canvas, -5, SpringLayout.EAST, this);
+		layout.putConstraint(SpringLayout.SOUTH, canvas, 0, SpringLayout.SOUTH, sliderPanel);
+		layout.putConstraint(SpringLayout.WEST, canvas, 5, SpringLayout.EAST, sliderPanel);
 	}
 }
