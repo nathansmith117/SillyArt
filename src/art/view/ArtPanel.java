@@ -156,7 +156,29 @@ public class ArtPanel extends JPanel
 	
 	private void setupListeners()
 	{
+		scaleSlider.addChangeListener(new ChangeListener()
+		{
+			@Override
+			public void stateChanged(ChangeEvent event)
+			{
+				if (!scaleSlider.getValueIsAdjusting())
+				{
+					currentScale = scaleSlider.getValue();
+				}
+			}
+		});
 		
+		edgeSlider.addChangeListener(new ChangeListener()
+		{
+			@Override
+			public void stateChanged(ChangeEvent event)
+			{
+				if (!edgeSlider.getValueIsAdjusting())
+				{
+					currentEdgeCount = edgeSlider.getValue();
+				}
+			}
+		});
 	}
 	
 	private void setupLayout()
@@ -167,7 +189,7 @@ public class ArtPanel extends JPanel
 		layout.putConstraint(SpringLayout.WEST, menuPanel, 5, SpringLayout.WEST, this);
 		
 		layout.putConstraint(SpringLayout.NORTH, sliderPanel, 5, SpringLayout.NORTH, this);
-		layout.putConstraint(SpringLayout.EAST, sliderPanel, 115, SpringLayout.EAST, menuPanel);
+		layout.putConstraint(SpringLayout.EAST, sliderPanel, 95, SpringLayout.EAST, menuPanel);
 		layout.putConstraint(SpringLayout.SOUTH, sliderPanel, -5, SpringLayout.SOUTH, this);
 		layout.putConstraint(SpringLayout.WEST, sliderPanel, 5, SpringLayout.EAST, menuPanel);
 		
