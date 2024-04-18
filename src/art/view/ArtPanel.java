@@ -5,6 +5,12 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.SpringLayout;
+import javax.swing.JSlider;
+import javax.swing.JLabel;
+
+import java.util.Hashtable;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -41,6 +47,20 @@ public class ArtPanel extends JPanel
 	
 	private ShapeCanvas canvas;
 	
+	// Things for sliders.
+	private final int MINIMUM_EDGE = 5;
+	private final int MAXIMUM_EDGE = 20;
+	private final int MINIMUM_SCALE = 20;
+	private final int MAXIMUM_SCALE = 100;
+	
+	private int currentScale;
+	private int currentEdgeCount;
+	
+	private JSlider scaleSlider;
+	private JSlider edgeSlider;
+	
+	private JPanel sliderPanel;
+	
 	public ArtPanel(Controller app)
 	{
 		super();
@@ -63,9 +83,43 @@ public class ArtPanel extends JPanel
 		this.clearButton = new JButton("clear");
 		this.colorButton = new JButton("color");
 		
+		this.currentScale = 0;
+		this.currentEdgeCount = 0;
+		this.scaleSlider = new JSlider(MINIMUM_SCALE, MAXIMUM_SCALE);
+		this.edgeSlider = new JSlider(MINIMUM_EDGE, MAXIMUM_EDGE);
+		this.sliderPanel = new JPanel(new GridLayout(1, 0));
+		
+		setupSliders();
 		setupPanel();
 		setupListeners();
 		setupLayout();
+	}
+	
+	private void setupSliders()
+	{
+		Hashtable<Integer, JLabel> scaleLabels = new Hashtable<Integer, JLabel>();
+		Hashtable<Integer, JLabel> edgeLabels = new Hashtable<Integer, JLabel>();
+		
+		scaleLabels.put((MAXIMUM_SCALE + MINIMUM_SCALE) / 2, new JLabel("<HTML>Medium<BR>Shape</HTML>"));
+		scaleLabels.put(MINIMUM_SCALE, new JLabel("<HTML>Small<BR>Shape</HTML>"));
+		scaleLabels.put(MAXIMUM_SCALE, new JLabel("<HTML>Large<BR>Shape</HTML>"));
+		
+		edgeLabels.put(MINIMUM_EDGE, new JLabel("Edges: " + MINIMUM_EDGE));
+		edgeLabels.put(MAXIMUM_EDGE, new JLabel("Edges: " + MAXIMUM_EDGE));
+		
+		scaleSlider.setLabelTable(scaleLabels);
+		scaleSlider.setOrientation(JSlider.HORIZONTAL);
+		scaleSlider.setMajorTickSpacing(10);
+		scaleSlider.setMinorTickSpacing(2);
+		scaleSlider.setPaintLabels(true);
+		scaleSlider.setPaintTicks(true);
+		
+		edgeSlider.setLabelTable(edgeLabels);
+		edgeSlider.setOrientation(JSlider.HORIZONTAL);
+		edgeSlider.setMajorTickSpacing(5);
+		edgeSlider.setMinorTickSpacing(1);
+		edgeSlider.setPaintLabels(true);
+		edgeSlider.setPaintTicks(true);
 	}
 	
 	private void setupPanel()
