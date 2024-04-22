@@ -222,4 +222,15 @@ public class ArtPanel extends JPanel
 		
 		return currentShape;
 	}
+	
+	private Rectangle createRectangle()
+	{
+		Rectangle currentRectangle;
+		
+		int cornerX = (int)(Math.random() * 800);
+		int cornerY = (int)(Math.random() * 800);
+		int width = (int)(Math.random() * currentScale) + 1;
+		
+		return currentRectangle;
+	}
 }
