@@ -50,6 +50,52 @@ public class ShapeCanvas extends JPanel
 		updateImage();
 	}
 	
+	public void addShape(Shape current)
+	{
+		if (current instanceof Polygon)
+		{
+			// Is triangle or other polygon.
+			if (((Polygon)current).xpoints.length == 3)
+			{
+				triangleList.add((Polygon)current);
+			}
+			else
+			{
+				polygonList.add((Polygon)current);
+			}
+		}
+		else if (current instanceof Ellipse2D)
+		{
+			ellipseList.add((Ellipse2D)current);
+		}
+		else
+		{
+			rectangleList.add((Rectangle)current);
+		}
+		
+		updateImage();
+	}
+	
+	public void clear()
+	{
+		canvasImage = new BufferedImage(800, 800, BufferedImage.TYPE_INT_ARGB);
+		
+		triangleList.clear();
+		polygonList.clear();
+		ellipseList.clear();
+		rectangleList.clear();
+		
+		updateImage();
+	}
+	
+	public void changeBackground()
+	{
+		Graphics2D current = canvasImage.createGraphics();
+		current.setPaint(createRandomColor());
+		current.fillRect(0, 0, canvasImage.getWidth(), canvasImage.getHeight());
+		updateImage();
+	}
+	
 	@Override
 	protected void paintComponent(Graphics graphics)
 	{
