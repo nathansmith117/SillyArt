@@ -18,6 +18,7 @@ import java.lang.Math;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import art.controller.Controller;
 
@@ -30,6 +31,8 @@ public class ShapeCanvas extends JPanel
 	private Controller app;
 	
 	private BufferedImage canvasImage;
+	
+	private Color backgroundColor;
 	
 	public ShapeCanvas(Controller app)
 	{
@@ -47,7 +50,105 @@ public class ShapeCanvas extends JPanel
 		this.setPreferredSize(new Dimension(800, 800));
 		this.setMaximumSize(getPreferredSize());
 		
+		backgroundColor = Color.WHITE;
+		
 		updateImage();
+	}
+	
+	public void addShape(Shape current)
+	{
+		if (current instanceof Polygon)
+		{
+			// Is triangle or other polygon.
+			if (((Polygon)current).xpoints.length == 3)
+			{
+				triangleList.add((Polygon)current);
+			}
+			else
+			{
+				polygonList.add((Polygon)current);
+			}
+		}
+		else if (current instanceof Ellipse2D)
+		{
+			ellipseList.add((Ellipse2D)current);
+		}
+		else
+		{
+			rectangleList.add((Rectangle)current);
+		}
+		
+		updateImage();
+	}
+	
+	public void clear()
+	{
+		canvasImage = new BufferedImage(800, 800, BufferedImage.TYPE_INT_ARGB);
+		
+		triangleList.clear();
+		polygonList.clear();
+		ellipseList.clear();
+		rectangleList.clear();
+		
+		updateImage();
+	}
+	
+	public void changeBackground()
+	{
+		backgroundColor = createRandomColor();
+		updateImage();
+	}
+	
+	private void saveArt(String path)
+	{
+		try
+		{
+			ImageIO.write(canvasImage, "png", new File(path));
+		}
+		catch (IOException | NullPointerException error)
+		{
+			app.handleError(error);
+		}
+	}
+	
+	public void save()
+	{
+		JFileChooser fileChooser = new JFileChooser();
+		
+		int result = fileChooser.showSaveDialog(this);
+		
+		if (result == JFileChooser.APPROVE_OPTION)
+		{
+			String path = fileChooser.getSelectedFile().getPath();
+			
+			// Add .png if not there.
+			if (path.length() <= 4 || !path.substring(path.length() - 4).equals(".png"))
+			{
+				path += ".png";
+			}
+			
+			saveArt(path);
+		}
+	}
+	
+	public void loadImage()
+	{
+		try
+		{
+			JFileChooser picker = new JFileChooser();
+			picker.addChoosableFileFilter(new FileNameExtensionFilter("Pictures!", "png"));
+			
+			if (picker.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+			{
+				String filepath = picker.getSelectedFile().getPath();
+				canvasImage = ImageIO.read(new File(filepath));
+				repaint();
+			}
+		}
+		catch (IOException error)
+		{
+			app.handleError(error);
+		}
 	}
 	
 	@Override
@@ -61,7 +162,7 @@ public class ShapeCanvas extends JPanel
 	{
 		Graphics2D drawingTool = (Graphics2D)canvasImage.getGraphics();
 		
-		drawingTool.setColor(Color.WHITE);
+		drawingTool.setColor(backgroundColor);
 		drawingTool.fill(new Rectangle(0, 0, 800, 800));
 		
 		// Triangles.
