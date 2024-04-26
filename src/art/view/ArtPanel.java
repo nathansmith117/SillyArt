@@ -231,6 +231,37 @@ public class ArtPanel extends JPanel
 		int cornerY = (int)(Math.random() * 800);
 		int width = (int)(Math.random() * currentScale) + 1;
 		
+		if (coinFlip())
+		{
+			currentRectangle = new Rectangle(cornerX, cornerY, width, width);
+		}
+		else
+		{
+			int height = (int)(Math.random() * currentScale) + 1;
+			currentRectangle = new Rectangle(cornerX, cornerY, width, height);
+		}
+		
 		return currentRectangle;
+	}
+	
+	private Ellipse2D createEllipse()
+	{
+		Ellipse2D ellipse = new Ellipse2D.Double();
+		
+		int cornerX = (int)(Math.random() * 800);
+		int cornerY = (int)(Math.random() * 800);
+		double width = Math.random() * currentScale + 1;
+		
+		if (coinFlip())
+		{
+			ellipse.setFrame(cornerX, cornerY, width, width);
+		}
+		else
+		{
+			double height = Math.random() * currentScale + 1;
+			ellipse.setFrame(cornerX, cornerY, width, height);
+		}
+		
+		return ellipse;
 	}
 }
