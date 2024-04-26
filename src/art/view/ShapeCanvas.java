@@ -18,6 +18,7 @@ import java.lang.Math;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import art.controller.Controller;
 
@@ -30,6 +31,8 @@ public class ShapeCanvas extends JPanel
 	private Controller app;
 	
 	private BufferedImage canvasImage;
+	
+	private Color backgroundColor;
 	
 	public ShapeCanvas(Controller app)
 	{
@@ -46,6 +49,8 @@ public class ShapeCanvas extends JPanel
 		this.setMinimumSize(new Dimension(800, 800));
 		this.setPreferredSize(new Dimension(800, 800));
 		this.setMaximumSize(getPreferredSize());
+		
+		backgroundColor = Color.WHITE;
 		
 		updateImage();
 	}
@@ -90,10 +95,60 @@ public class ShapeCanvas extends JPanel
 	
 	public void changeBackground()
 	{
-		Graphics2D current = canvasImage.createGraphics();
-		current.setPaint(createRandomColor());
-		current.fillRect(0, 0, canvasImage.getWidth(), canvasImage.getHeight());
+		backgroundColor = createRandomColor();
 		updateImage();
+	}
+	
+	private void saveArt(String path)
+	{
+		try
+		{
+			ImageIO.write(canvasImage, "png", new File(path));
+		}
+		catch (IOException | NullPointerException error)
+		{
+			app.handleError(error);
+		}
+	}
+	
+	public void save()
+	{
+		JFileChooser fileChooser = new JFileChooser();
+		
+		int result = fileChooser.showSaveDialog(this);
+		
+		if (result == JFileChooser.APPROVE_OPTION)
+		{
+			String path = fileChooser.getSelectedFile().getPath();
+			
+			// Add .png if not there.
+			if (path.length() <= 4 || !path.substring(path.length() - 4).equals(".png"))
+			{
+				path += ".png";
+			}
+			
+			saveArt(path);
+		}
+	}
+	
+	public void loadImage()
+	{
+		try
+		{
+			JFileChooser picker = new JFileChooser();
+			picker.addChoosableFileFilter(new FileNameExtensionFilter("Pictures!", "png"));
+			
+			if (picker.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+			{
+				String filepath = picker.getSelectedFile().getPath();
+				canvasImage = ImageIO.read(new File(filepath));
+				repaint();
+			}
+		}
+		catch (IOException error)
+		{
+			app.handleError(error);
+		}
 	}
 	
 	@Override
@@ -107,7 +162,7 @@ public class ShapeCanvas extends JPanel
 	{
 		Graphics2D drawingTool = (Graphics2D)canvasImage.getGraphics();
 		
-		drawingTool.setColor(Color.WHITE);
+		drawingTool.setColor(backgroundColor);
 		drawingTool.fill(new Rectangle(0, 0, 800, 800));
 		
 		// Triangles.

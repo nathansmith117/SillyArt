@@ -113,6 +113,7 @@ public class ArtPanel extends JPanel
 		scaleSlider.setMinorTickSpacing(2);
 		scaleSlider.setPaintLabels(true);
 		scaleSlider.setPaintTicks(true);
+		currentScale = scaleSlider.getValue();
 		
 		edgeSlider.setLabelTable(edgeLabels);
 		edgeSlider.setOrientation(JSlider.VERTICAL);
@@ -120,6 +121,7 @@ public class ArtPanel extends JPanel
 		edgeSlider.setMinorTickSpacing(1);
 		edgeSlider.setPaintLabels(true);
 		edgeSlider.setPaintTicks(true);
+		currentEdgeCount = edgeSlider.getValue();
 	}
 	
 	private void setupPanel()
@@ -179,6 +181,17 @@ public class ArtPanel extends JPanel
 				}
 			}
 		});
+		
+		saveButton.addActionListener(click -> canvas.save());
+		loadButton.addActionListener(click -> canvas.loadImage());
+		
+		triangleButton.addActionListener(click -> canvas.addShape(createPolygon(3)));
+		ellipseButton.addActionListener(click -> canvas.addShape(createEllipse()));
+		rectangleButton.addActionListener(click -> canvas.addShape(createRectangle()));
+		polygonButton.addActionListener(click -> canvas.addShape(createPolygon(currentEdgeCount)));
+		
+		clearButton.addActionListener(click -> canvas.clear());
+		colorButton.addActionListener(click -> canvas.changeBackground());
 	}
 	
 	private void setupLayout()
