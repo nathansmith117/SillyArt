@@ -42,6 +42,7 @@ public class ArtPanel extends JPanel
 	private JButton ellipseButton;
 	private JButton rectangleButton;
 	private JButton polygonButton;
+	private JButton normalPolygonButton;
 	private JButton clearButton;
 	private JButton colorButton;
 	
@@ -80,6 +81,7 @@ public class ArtPanel extends JPanel
 		this.ellipseButton = new JButton("ellipse");
 		this.rectangleButton = new JButton("rectangle");
 		this.polygonButton = new JButton("polygon");
+		this.normalPolygonButton = new JButton("Normal polygon");
 		this.clearButton = new JButton("clear");
 		this.colorButton = new JButton("color");
 		
@@ -113,6 +115,7 @@ public class ArtPanel extends JPanel
 		scaleSlider.setMinorTickSpacing(2);
 		scaleSlider.setPaintLabels(true);
 		scaleSlider.setPaintTicks(true);
+		currentScale = scaleSlider.getValue();
 		
 		edgeSlider.setLabelTable(edgeLabels);
 		edgeSlider.setOrientation(JSlider.VERTICAL);
@@ -120,6 +123,7 @@ public class ArtPanel extends JPanel
 		edgeSlider.setMinorTickSpacing(1);
 		edgeSlider.setPaintLabels(true);
 		edgeSlider.setPaintTicks(true);
+		currentEdgeCount = edgeSlider.getValue();
 	}
 	
 	private void setupPanel()
@@ -137,6 +141,7 @@ public class ArtPanel extends JPanel
 		menuPanel.add(triangleButton);
 		menuPanel.add(ellipseButton);
 		menuPanel.add(rectangleButton);
+		menuPanel.add(normalPolygonButton);
 		menuPanel.add(polygonButton);
 		menuPanel.add(clearButton);
 		menuPanel.add(colorButton);
@@ -179,12 +184,24 @@ public class ArtPanel extends JPanel
 				}
 			}
 		});
+		
+		saveButton.addActionListener(click -> canvas.save());
+		loadButton.addActionListener(click -> canvas.loadImage());
+		
+		triangleButton.addActionListener(click -> canvas.addShape(createPolygon(3)));
+		ellipseButton.addActionListener(click -> canvas.addShape(createEllipse()));
+		rectangleButton.addActionListener(click -> canvas.addShape(createRectangle()));
+		polygonButton.addActionListener(click -> canvas.addShape(createPolygon(currentEdgeCount)));
+		normalPolygonButton.addActionListener(click -> canvas.addShape(createNormalPolygon(currentEdgeCount)));
+		
+		clearButton.addActionListener(click -> canvas.clear());
+		colorButton.addActionListener(click -> canvas.changeBackground());
 	}
 	
 	private void setupLayout()
 	{
 		layout.putConstraint(SpringLayout.NORTH, menuPanel, 5, SpringLayout.NORTH, this);
-		layout.putConstraint(SpringLayout.EAST, menuPanel, 105, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.EAST, menuPanel, 150, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.SOUTH, menuPanel, -5, SpringLayout.SOUTH, this);
 		layout.putConstraint(SpringLayout.WEST, menuPanel, 5, SpringLayout.WEST, this);
 		
@@ -223,6 +240,26 @@ public class ArtPanel extends JPanel
 		return currentShape;
 	}
 	
+	private Polygon createNormalPolygon(int sides)
+	{
+		Polygon polygon = new Polygon();
+		
+		int originX = (int)(Math.random() * 800);
+		int originY = (int)(Math.random() * 800);
+		
+		for (int lineNum = 0; lineNum < sides; lineNum++)
+		{
+			double angle = (double)(lineNum) * ((Math.PI * 2.0) / (double)(sides));
+			
+			int xPoint = (int)(currentScale * Math.sin(angle) + originX);
+			int yPoint = (int)(currentScale * Math.cos(angle) + originY);
+			
+			polygon.addPoint(xPoint, yPoint);
+		}
+		
+		return polygon;
+	}
+	
 	private Rectangle createRectangle()
 	{
 		Rectangle currentRectangle;
@@ -231,6 +268,37 @@ public class ArtPanel extends JPanel
 		int cornerY = (int)(Math.random() * 800);
 		int width = (int)(Math.random() * currentScale) + 1;
 		
+		if (coinFlip())
+		{
+			currentRectangle = new Rectangle(cornerX, cornerY, width, width);
+		}
+		else
+		{
+			int height = (int)(Math.random() * currentScale) + 1;
+			currentRectangle = new Rectangle(cornerX, cornerY, width, height);
+		}
+		
 		return currentRectangle;
+	}
+	
+	private Ellipse2D createEllipse()
+	{
+		Ellipse2D ellipse = new Ellipse2D.Double();
+		
+		int cornerX = (int)(Math.random() * 800);
+		int cornerY = (int)(Math.random() * 800);
+		double width = Math.random() * currentScale + 1;
+		
+		if (coinFlip())
+		{
+			ellipse.setFrame(cornerX, cornerY, width, width);
+		}
+		else
+		{
+			double height = Math.random() * currentScale + 1;
+			ellipse.setFrame(cornerX, cornerY, width, height);
+		}
+		
+		return ellipse;
 	}
 }
